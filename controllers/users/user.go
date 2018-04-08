@@ -2,21 +2,20 @@ package users
 
 import (
 	"context"
-	"errors"
 	"go-cms/models"
-	"time"
+	"go-cms/services"
 )
 
 // List get user list
-func List(ctx context.Context, page int) (*models.Model, error) {
-	if page == 2 {
-		return &models.Model{
-			ID:        1,
-			CreatedAt: time.Now(),
-		}, errors.New("some error")
-	}
-	return &models.Model{
-		ID:        1,
-		CreatedAt: time.Now(),
-	}, nil
+func List(ctx context.Context, page int, pagesize int, search string) ([]models.User, error) {
+	var managerService = services.NewManagerService()
+	var data, err = managerService.UserList(page, pagesize, search)
+	return data, err
+}
+
+// New create user
+func New(ctx context.Context, account, password string) (bool, error) {
+	var managerService = services.NewManagerService()
+	var err = managerService.CreateUser(account, password)
+	return err == nil, err
 }
