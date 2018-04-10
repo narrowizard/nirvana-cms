@@ -50,7 +50,7 @@ var User = definition.Descriptor{
 			Definitions: []definition.Definition{
 				{
 					Method:   definition.Create,
-					Function: users.List,
+					Function: users.New,
 					Consumes: []string{definition.MIMEAll},
 					Produces: []string{definition.MIMEJSON},
 					Parameters: []definition.Parameter{

@@ -32,5 +32,14 @@ func (this *ManagerService) CreateUser(account, password string) error {
 	if !notFound {
 		return meta.UserExistedError.Error(account)
 	}
+	var m models.User
+	m.Account = account
+	m.Password = password
+	m.Encrypt()
+	var err = this.DB.Model(&m).Create(&m).Error
+	if err != nil {
+		log.Error(err)
+		return meta.TableInsertError.Error("users")
+	}
 	return nil
 }
