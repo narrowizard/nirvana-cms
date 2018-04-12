@@ -13,6 +13,7 @@ type User struct {
 	Account  string
 	Password string
 	Salt     string
+	Status   int // 1-正常 2-禁用 101-删除
 }
 
 func (this *User) Encrypt() {

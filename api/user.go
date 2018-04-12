@@ -55,19 +55,70 @@ var User = definition.Descriptor{
 					Produces: []string{definition.MIMEJSON},
 					Parameters: []definition.Parameter{
 						{
-							Source:      definition.Body,
+							Source:      definition.Form,
 							Name:        "account",
 							Description: "user account",
 							Operators:   []definition.Operator{validator.String("min=5"), validator.String("max=16")},
 						},
 						{
-							Source:      definition.Body,
+							Source:      definition.Form,
 							Name:        "password",
 							Description: "user password",
 							Operators:   []definition.Operator{validator.String("min=6"), validator.String("max=20")},
 						},
 					},
 					Results: definition.DataErrorResults("whether created"),
+				},
+			},
+		},
+		{
+			Path:        "/delete",
+			Description: "delete user",
+			Definitions: []definition.Definition{
+				{
+					Method:   definition.Delete,
+					Function: users.Delete,
+					Consumes: []string{definition.MIMEAll},
+					Produces: []string{definition.MIMEJSON},
+					Parameters: []definition.Parameter{
+						{
+							Source:      definition.Query,
+							Name:        "userid",
+							Description: "user id",
+							Operators:   []definition.Operator{validator.Int("min=1")},
+						},
+					},
+					Results: []definition.Result{
+						{
+							Destination: definition.Error,
+						},
+					},
+				},
+			},
+		},
+		{
+			Path:        "/update",
+			Description: "update user",
+			Definitions: []definition.Definition{
+				{
+					Method:   definition.Update,
+					Function: users.Update,
+					Consumes: []string{definition.MIMEAll},
+					Produces: []string{definition.MIMEJSON},
+					Parameters: []definition.Parameter{
+						{
+							Source:      definition.Form,
+							Name:        "userid",
+							Description: "user id",
+							Operators:   []definition.Operator{validator.Int("min=1")},
+						},
+						{
+							Source:      definition.Form,
+							Name:        "status",
+							Description: "user status",
+						},
+					},
+					Results: definition.DataErrorResults("whether updated"),
 				},
 			},
 		},
