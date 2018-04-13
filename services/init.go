@@ -23,6 +23,7 @@ func init() {
 
 func createDatabase() {
 	db.AutoMigrate(&models.User{})
+	db.AutoMigrate(&models.Menu{})
 }
 
 func checkErr(err error) {
