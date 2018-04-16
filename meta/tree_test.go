@@ -16,7 +16,7 @@ func NewTreeData(id, pid int) TreeData {
 	}
 }
 
-func (this TreeData) ID() int {
+func (this TreeData) CID() int {
 	return this.id
 }
 
@@ -34,12 +34,22 @@ var testData = []TreeData{
 }
 
 func TestArrayToTree(t *testing.T) {
-	var data = make([]TreeableData, 0)
+	var treeableData = make([]TreeableData, 0)
 	for _, v := range testData {
-		data = append(data, TreeableData(v))
+		treeableData = append(treeableData, v)
 	}
-	var tree = ArrayToTree(data)
+
+	var tree = ArrayToTree(treeableData)
+	t.Log(tree)
 	if len(tree) != 1 {
-		t.Errorf("wrong tree data: %+v", tree)
+		t.Errorf("got error root node count.")
+		return
+	}
+	var root = tree[0]
+	if root.Find(6) == nil {
+		t.Errorf("cannot find child node.")
+	}
+	if root.Find(7) != nil {
+		t.Errorf("find node not existed.")
 	}
 }

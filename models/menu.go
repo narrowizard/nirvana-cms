@@ -7,5 +7,12 @@ type Menu struct {
 	Icon     string
 	URL      string
 	Status   ENUMSTATUS
-	Children []Menu
+}
+
+func (this Menu) CID() int {
+	return this.ID
+}
+
+func (this Menu) PID() int {
+	return this.ParentID
 }

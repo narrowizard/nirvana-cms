@@ -65,9 +65,18 @@ func (this *ManagerService) UpdateUser(userid int, status models.ENUMSTATUS) err
 	return nil
 }
 
-func (this *ManagerService) MenuList() ([]models.Menu, error) {
-	// var menuData = make([]models.Menu, 0)
-	// var err = this.DB.Model(&models.Menu{}).Where("status < 100").Scan(&menuData).Error
+func (this *ManagerService) MenuList() ([]meta.SimpleTreeNode, error) {
+	var menuData = make([]models.Menu, 0)
+	var err = this.DB.Model(&models.Menu{}).Where("status < 100").Scan(&menuData).Error
+	if err != nil {
+		log.Error(err)
+		return nil, meta.TableQueryError.Error("menu")
+	}
 	// 转换成树形结构
-	return nil, nil
+	var treeableData = make([]meta.TreeableData, 0)
+	for _, v := range menuData {
+		treeableData = append(treeableData, v)
+	}
+	var treeData = meta.ArrayToTree(treeableData)
+	return treeData, nil
 }

@@ -2,24 +2,24 @@ package meta
 
 // TreeableData array data that could translate to tree
 type TreeableData interface {
-	ID() int
+	CID() int
 	PID() int
 }
 
 // SimpleTreeNode 树节点的简单实现
 type SimpleTreeNode struct {
 	Data     TreeableData
-	Children []SimpleTreeNode
+	Children []*SimpleTreeNode
 }
 
 func (this *SimpleTreeNode) Append(cnode *SimpleTreeNode) *SimpleTreeNode {
-	this.Children = append(this.Children, *cnode)
+	this.Children = append(this.Children, cnode)
 	return this
 }
 
 // Find 从当前节点与子节点查找id为key的节点
 func (this *SimpleTreeNode) Find(key int) *SimpleTreeNode {
-	if this.Data.ID() == key {
+	if this.Data.CID() == key {
 		return this
 	}
 	for _, v := range this.Children {
@@ -35,7 +35,7 @@ func NewSimpleTreeNode(data TreeableData) *SimpleTreeNode {
 	var temp = &SimpleTreeNode{
 		Data: data,
 	}
-	temp.Children = make([]SimpleTreeNode, 0)
+	temp.Children = make([]*SimpleTreeNode, 0)
 	return temp
 }
 
@@ -46,7 +46,7 @@ func ArrayToTree(array []TreeableData) []SimpleTreeNode {
 	var cids = make(map[int]bool)
 	var pids = make(map[int]bool)
 	for _, v := range array {
-		cids[v.ID()] = true
+		cids[v.CID()] = true
 		pids[v.PID()] = true
 	}
 
@@ -59,7 +59,8 @@ func ArrayToTree(array []TreeableData) []SimpleTreeNode {
 	}
 
 	var handled = false
-	for _, v := range array {
+	for i := 0; i < len(array); i++ {
+		var v = array[i]
 		// if root
 		if roots[v.PID()] {
 			data = append(data, *NewSimpleTreeNode(v))

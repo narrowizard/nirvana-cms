@@ -2,12 +2,12 @@ package menus
 
 import (
 	"context"
-	"go-cms/models"
+	"go-cms/meta"
 	"go-cms/services"
 )
 
 // List get menu tree
-func List(ctx context.Context) ([]models.Menu, error) {
+func List(ctx context.Context) ([]meta.SimpleTreeNode, error) {
 	var managerService = services.NewManagerService()
 	var data, err = managerService.MenuList()
 	return data, err
