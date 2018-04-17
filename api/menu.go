@@ -40,11 +40,6 @@ var Menu = definition.Descriptor{
 						},
 						{
 							Source:      definition.Form,
-							Name:        "parentid",
-							Description: "parent node's id",
-						},
-						{
-							Source:      definition.Form,
 							Name:        "icon",
 							Description: "node icon",
 						},
@@ -52,6 +47,11 @@ var Menu = definition.Descriptor{
 							Source:      definition.Form,
 							Name:        "url",
 							Description: "node url",
+						},
+						{
+							Source:      definition.Form,
+							Name:        "parentid",
+							Description: "parent node's id",
 						},
 					},
 					Results: definition.DataErrorResults("whether created"),

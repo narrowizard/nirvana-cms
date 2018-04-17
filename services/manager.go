@@ -70,7 +70,7 @@ func (this *ManagerService) MenuList() ([]meta.SimpleTreeNode, error) {
 	var err = this.DB.Model(&models.Menu{}).Where("status < 100").Scan(&menuData).Error
 	if err != nil {
 		log.Error(err)
-		return nil, meta.TableQueryError.Error("menu")
+		return nil, meta.TableQueryError.Error("menus")
 	}
 	// 转换成树形结构
 	var treeableData = make([]meta.TreeableData, 0)
@@ -79,4 +79,20 @@ func (this *ManagerService) MenuList() ([]meta.SimpleTreeNode, error) {
 	}
 	var treeData = meta.ArrayToTree(treeableData)
 	return treeData, nil
+}
+
+func (this *ManagerService) CreateMenu(pid int, name, url, icon string) error {
+	var m = models.Menu{
+		Icon:     icon,
+		Name:     name,
+		URL:      url,
+		ParentID: pid,
+		Status:   models.STATUSNORMAL,
+	}
+	var err = this.DB.Create(&m).Error
+	if err != nil {
+		log.Error(err)
+		return meta.TableInsertError.Error("menus")
+	}
+	return nil
 }

@@ -15,5 +15,7 @@ func List(ctx context.Context) ([]meta.SimpleTreeNode, error) {
 
 // New create menu node
 func New(ctx context.Context, name, icon, url string, parentid int) (bool, error) {
-	return false, nil
+	var managerService = services.NewManagerService()
+	var err = managerService.CreateMenu(parentid, name, url, icon)
+	return err == nil, err
 }
