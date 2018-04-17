@@ -2,8 +2,8 @@ package menus
 
 import (
 	"context"
-	"go-cms/meta"
-	"go-cms/services"
+	"nirvana-cms/meta"
+	"nirvana-cms/services"
 )
 
 // List get menu tree

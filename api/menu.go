@@ -1,7 +1,7 @@
 package api
 
 import (
-	"go-cms/controllers/menus"
+	"nirvana-cms/controllers/menus"
 
 	"github.com/caicloud/nirvana/definition"
 )

@@ -1,7 +1,7 @@
 package services
 
 import (
-	"go-cms/models"
+	"nirvana-cms/models"
 
 	"github.com/jinzhu/gorm"
 	"github.com/kdada/tinygo/config"

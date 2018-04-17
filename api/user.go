@@ -1,7 +1,7 @@
 package api
 
 import (
-	"go-cms/controllers/users"
+	"nirvana-cms/controllers/users"
 
 	"github.com/caicloud/nirvana/definition"
 	"github.com/caicloud/nirvana/operators/validator"

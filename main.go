@@ -1,7 +1,7 @@
 package main
 
 import (
-	"go-cms/api"
+	"nirvana-cms/api"
 
 	"github.com/caicloud/nirvana"
 	"github.com/caicloud/nirvana/log"

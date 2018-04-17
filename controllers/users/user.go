@@ -3,9 +3,9 @@ package users
 import (
 	"context"
 	"encoding/json"
-	"go-cms/meta"
-	"go-cms/models"
-	"go-cms/services"
+	"nirvana-cms/meta"
+	"nirvana-cms/models"
+	"nirvana-cms/services"
 
 	"github.com/caicloud/nirvana/log"
 )

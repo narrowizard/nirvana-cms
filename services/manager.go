@@ -1,8 +1,8 @@
 package services
 
 import (
-	"go-cms/meta"
-	"go-cms/models"
+	"nirvana-cms/meta"
+	"nirvana-cms/models"
 
 	"github.com/caicloud/nirvana/log"
 )
