@@ -24,6 +24,7 @@ func init() {
 func createDatabase() {
 	db.AutoMigrate(&models.User{})
 	db.AutoMigrate(&models.Menu{})
+	db.AutoMigrate(&models.UserMenu{})
 }
 
 func checkErr(err error) {

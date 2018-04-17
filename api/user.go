@@ -66,6 +66,11 @@ var User = definition.Descriptor{
 							Description: "user password",
 							Operators:   []definition.Operator{validator.String("min=6"), validator.String("max=20")},
 						},
+						{
+							Source:      definition.Form,
+							Name:        "menus",
+							Description: "user menu list",
+						},
 					},
 					Results: definition.DataErrorResults("whether created"),
 				},
@@ -117,8 +122,34 @@ var User = definition.Descriptor{
 							Name:        "status",
 							Description: "user status",
 						},
+						{
+							Source:      definition.Form,
+							Name:        "menus",
+							Description: "user menu list",
+						},
 					},
 					Results: definition.DataErrorResults("whether updated"),
+				},
+			},
+		},
+		{
+			Path:        "/info",
+			Description: "get user info",
+			Definitions: []definition.Definition{
+				{
+					Method:   definition.Get,
+					Function: users.Info,
+					Consumes: []string{definition.MIMEAll},
+					Produces: []string{definition.MIMEJSON},
+					Parameters: []definition.Parameter{
+						{
+							Source:      definition.Query,
+							Name:        "id",
+							Description: "user id",
+							Operators:   []definition.Operator{validator.Int("min=1")},
+						},
+					},
+					Results: definition.DataErrorResults("user info"),
 				},
 			},
 		},

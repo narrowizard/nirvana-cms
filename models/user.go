@@ -8,12 +8,19 @@ import (
 	"time"
 )
 
+type UserMenu struct {
+	Model
+	UserID int
+	MenuID int
+	Status ENUMSTATUS
+}
+
 type User struct {
 	Model
 	Account  string
 	Password string
 	Salt     string
-	Status   int // 1-正常 2-禁用 101-删除
+	Status   ENUMSTATUS
 }
 
 func (this *User) Encrypt() {
