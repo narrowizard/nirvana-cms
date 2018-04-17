@@ -96,3 +96,16 @@ func (this *ManagerService) CreateMenu(pid int, name, url, icon string) error {
 	}
 	return nil
 }
+
+func (this *ManagerService) UpdateMenu(id int, name, url, icon string) error {
+	var err = this.DB.Model(&models.Menu{}).Where("id=? and status=?", id, models.STATUSNORMAL).Update(map[string]interface{}{
+		"name": name,
+		"url":  url,
+		"icon": icon,
+	}).Error
+	if err != nil {
+		log.Error(err)
+		return meta.TableUpdateError.Error("menus")
+	}
+	return nil
+}

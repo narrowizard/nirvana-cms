@@ -58,5 +58,40 @@ var Menu = definition.Descriptor{
 				},
 			},
 		},
+		{
+			Path:        "/update",
+			Description: "update a menu node",
+			Definitions: []definition.Definition{
+				{
+					Method:   definition.Update,
+					Function: menus.Update,
+					Consumes: []string{definition.MIMEAll},
+					Produces: []string{definition.MIMEJSON},
+					Parameters: []definition.Parameter{
+						{
+							Source:      definition.Form,
+							Name:        "name",
+							Description: "menu name",
+						},
+						{
+							Source:      definition.Form,
+							Name:        "icon",
+							Description: "node icon",
+						},
+						{
+							Source:      definition.Form,
+							Name:        "url",
+							Description: "node url",
+						},
+						{
+							Source:      definition.Form,
+							Name:        "id",
+							Description: "node id",
+						},
+					},
+					Results: definition.DataErrorResults("whether updated"),
+				},
+			},
+		},
 	},
 }
