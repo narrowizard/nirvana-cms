@@ -14,15 +14,15 @@ func List(ctx context.Context) ([]meta.SimpleTreeNode, error) {
 }
 
 // New create menu node
-func New(ctx context.Context, name, icon, url string, parentid int) (bool, error) {
+func New(ctx context.Context, name, icon, url, remarks string, parentid, ismenu int) (bool, error) {
 	var managerService = services.NewManagerService()
-	var err = managerService.CreateMenu(parentid, name, url, icon)
+	var err = managerService.CreateMenu(parentid, ismenu, name, url, icon, remarks)
 	return err == nil, err
 }
 
 // Update update a menu node
-func Update(ctx context.Context, name, icon, url string, id int) (bool, error) {
+func Update(ctx context.Context, name, icon, url, remarks string, id, ismenu int) (bool, error) {
 	var managerService = services.NewManagerService()
-	var err = managerService.UpdateMenu(id, name, url, icon)
+	var err = managerService.UpdateMenu(id, ismenu, name, url, icon, remarks)
 	return err == nil, err
 }

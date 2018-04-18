@@ -4,6 +4,7 @@ import (
 	"nirvana-cms/controllers/menus"
 
 	"github.com/caicloud/nirvana/definition"
+	"github.com/caicloud/nirvana/operators/validator"
 )
 
 var Menu = definition.Descriptor{
@@ -50,8 +51,20 @@ var Menu = definition.Descriptor{
 						},
 						{
 							Source:      definition.Form,
+							Name:        "remarks",
+							Description: "node remarks",
+						},
+						{
+							Source:      definition.Form,
 							Name:        "parentid",
 							Description: "parent node's id",
+							Operators:   []definition.Operator{validator.Int("min=1")},
+						},
+						{
+							Source:      definition.Form,
+							Name:        "ismenu",
+							Description: "1 for menu, 2 for api",
+							Operators:   []definition.Operator{validator.Int("min=1"), validator.Int("max=2")},
 						},
 					},
 					Results: definition.DataErrorResults("whether created"),
@@ -85,8 +98,20 @@ var Menu = definition.Descriptor{
 						},
 						{
 							Source:      definition.Form,
+							Name:        "remarks",
+							Description: "node remarks",
+						},
+						{
+							Source:      definition.Form,
 							Name:        "id",
 							Description: "node id",
+							Operators:   []definition.Operator{validator.Int("min=1")},
+						},
+						{
+							Source:      definition.Form,
+							Name:        "ismenu",
+							Description: "1-menu 2-api",
+							Operators:   []definition.Operator{validator.Int("min=1"), validator.Int("max=2")},
 						},
 					},
 					Results: definition.DataErrorResults("whether updated"),

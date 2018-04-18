@@ -128,13 +128,15 @@ func (this *ManagerService) MenuList() ([]meta.SimpleTreeNode, error) {
 	return treeData, nil
 }
 
-func (this *ManagerService) CreateMenu(pid int, name, url, icon string) error {
+func (this *ManagerService) CreateMenu(pid, ismenu int, name, url, icon, remarks string) error {
 	var m = models.Menu{
 		Icon:     icon,
 		Name:     name,
 		URL:      url,
 		ParentID: pid,
 		Status:   models.STATUSNORMAL,
+		IsMenu:   ismenu,
+		Remarks:  remarks,
 	}
 	var err = this.DB.Create(&m).Error
 	if err != nil {
@@ -144,11 +146,13 @@ func (this *ManagerService) CreateMenu(pid int, name, url, icon string) error {
 	return nil
 }
 
-func (this *ManagerService) UpdateMenu(id int, name, url, icon string) error {
+func (this *ManagerService) UpdateMenu(id, ismenu int, name, url, icon, remarks string) error {
 	var err = this.DB.Model(&models.Menu{}).Where("id=? and status=?", id, models.STATUSNORMAL).Update(map[string]interface{}{
-		"name": name,
-		"url":  url,
-		"icon": icon,
+		"name":    name,
+		"url":     url,
+		"icon":    icon,
+		"is_menu": ismenu,
+		"remarks": remarks,
 	}).Error
 	if err != nil {
 		log.Error(err)

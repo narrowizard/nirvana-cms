@@ -9,7 +9,3 @@ func NewUserService() *UserService {
 		BaseService: *NewBaseService(),
 	}
 }
-
-func (this *UserService) Login() {
-
-}
