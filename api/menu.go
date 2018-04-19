@@ -58,7 +58,6 @@ var Menu = definition.Descriptor{
 							Source:      definition.Form,
 							Name:        "parentid",
 							Description: "parent node's id",
-							Operators:   []definition.Operator{validator.Int("min=1")},
 						},
 						{
 							Source:      definition.Form,
