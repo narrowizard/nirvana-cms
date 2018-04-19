@@ -56,3 +56,9 @@ func Update(ctx context.Context, userid, status int, menus string) (bool, error)
 	err = managerService.UpdateUser(userid, models.ENUMSTATUS(status), menusData)
 	return err == nil, err
 }
+
+// MenuList returns user menu list
+func MenuList(ctx context.Context, userid int) ([]models.Menu, error) {
+	var userService = services.NewUserService()
+	return userService.MenuList(userid)
+}

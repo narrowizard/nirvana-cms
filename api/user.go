@@ -153,5 +153,26 @@ var User = definition.Descriptor{
 				},
 			},
 		},
+		{
+			Path:        "/menulist",
+			Description: "get user menu list",
+			Definitions: []definition.Definition{
+				{
+					Method:   definition.List,
+					Function: users.MenuList,
+					Consumes: []string{definition.MIMEAll},
+					Produces: []string{definition.MIMEJSON},
+					Parameters: []definition.Parameter{
+						{
+							Source:      definition.Query,
+							Name:        "userid",
+							Description: "user id",
+							Operators:   []definition.Operator{validator.Int("min=1")},
+						},
+					},
+					Results: definition.DataErrorResults("user menu list data"),
+				},
+			},
+		},
 	},
 }
