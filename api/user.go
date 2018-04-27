@@ -165,7 +165,7 @@ var User = definition.Descriptor{
 					Parameters: []definition.Parameter{
 						{
 							Source:      definition.Query,
-							Name:        "userid",
+							Name:        "nirvanacmsuserid",
 							Description: "user id",
 							Operators:   []definition.Operator{validator.Int("min=1")},
 						},

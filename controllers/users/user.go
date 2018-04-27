@@ -58,7 +58,7 @@ func Update(ctx context.Context, userid, status int, menus string) (bool, error)
 }
 
 // MenuList returns user menu list
-func MenuList(ctx context.Context, userid int) ([]meta.SimpleTreeNode, error) {
+func MenuList(ctx context.Context, nirvanacmsuserid int) ([]meta.SimpleTreeNode, error) {
 	var userService = services.NewUserService()
-	return userService.MenuList(userid)
+	return userService.MenuList(nirvanacmsuserid)
 }
