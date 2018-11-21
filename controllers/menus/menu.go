@@ -2,8 +2,9 @@ package menus
 
 import (
 	"context"
-	"nirvana-cms/meta"
-	"nirvana-cms/services"
+
+	"github.com/narrowizard/nirvana-cms/meta"
+	"github.com/narrowizard/nirvana-cms/services"
 )
 
 // List get menu tree

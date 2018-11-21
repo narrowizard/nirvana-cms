@@ -3,9 +3,10 @@ package users
 import (
 	"context"
 	"encoding/json"
-	"nirvana-cms/meta"
-	"nirvana-cms/models"
-	"nirvana-cms/services"
+
+	"github.com/narrowizard/nirvana-cms/meta"
+	"github.com/narrowizard/nirvana-cms/models"
+	"github.com/narrowizard/nirvana-cms/services"
 
 	"github.com/caicloud/nirvana/log"
 )
