@@ -47,11 +47,15 @@ func Delete(ctx context.Context, userid int) error {
 
 // Update update user info
 func Update(ctx context.Context, userid, status int, menus string) (bool, error) {
-	var menusData = make([]int, 0)
-	var err = json.Unmarshal([]byte(menus), &menusData)
-	if err != nil {
-		log.Error(err)
-		return false, meta.UnexpectedParamError.Error("menus")
+	var menusData []int
+	var err error
+	if menus != "" {
+		menusData = make([]int, 0)
+		err = json.Unmarshal([]byte(menus), &menusData)
+		if err != nil {
+			log.Error(err)
+			return false, meta.UnexpectedParamError.Error("menus")
+		}
 	}
 	var managerService = services.NewManagerService()
 	err = managerService.UpdateUser(userid, models.ENUMSTATUS(status), menusData)
