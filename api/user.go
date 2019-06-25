@@ -72,7 +72,7 @@ var User = definition.Descriptor{
 							Description: "user menu list",
 						},
 					},
-					Results: definition.DataErrorResults("whether created"),
+					Results: definition.DataErrorResults("user info"),
 				},
 			},
 		},

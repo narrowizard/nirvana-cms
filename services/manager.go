@@ -36,11 +36,11 @@ func (this *ManagerService) UserList(page int, pagesize int, search string) (*mo
 	}, nil
 }
 
-func (this *ManagerService) CreateUser(account, password string, menus []int) error {
+func (this *ManagerService) CreateUser(account, password string, menus []int) (*models.User, error) {
 	var m models.User
 	var notFound = this.DB.Model(&models.User{}).Where("account=?", account).Scan(&m).RecordNotFound()
 	if !notFound {
-		return meta.UserExistedError.Error(account)
+		return nil, meta.UserExistedError.Error(account)
 	}
 	m.Account = account
 	m.Password = password
@@ -51,7 +51,7 @@ func (this *ManagerService) CreateUser(account, password string, menus []int) er
 	if err != nil {
 		log.Error(err)
 		tx.Rollback()
-		return meta.TableInsertError.Error("users")
+		return nil, meta.TableInsertError.Error("users")
 	}
 	for _, v := range menus {
 		var um = models.UserMenu{
@@ -63,11 +63,12 @@ func (this *ManagerService) CreateUser(account, password string, menus []int) er
 		if err != nil {
 			log.Error(err)
 			tx.Rollback()
-			return meta.TableInsertError.Error("user_menus")
+			return nil, meta.TableInsertError.Error("user_menus")
 		}
 	}
 	tx.Commit()
-	return nil
+	m.ClearPassword()
+	return &m, nil
 }
 
 func (this *ManagerService) UpdateUser(userid int, status models.ENUMSTATUS, menus []int) error {

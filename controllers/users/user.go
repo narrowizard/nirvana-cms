@@ -26,16 +26,16 @@ func List(ctx context.Context, page int, pagesize int, search string) (*models.P
 }
 
 // New create user
-func New(ctx context.Context, account, password, menus string) (bool, error) {
+func New(ctx context.Context, account, password, menus string) (*models.User, error) {
 	var menuids = make([]int, 0)
 	var err = json.Unmarshal([]byte(menus), &menuids)
 	if err != nil {
 		log.Error(err)
-		return false, meta.UnexpectedParamError.Error("menus")
+		return nil, meta.UnexpectedParamError.Error("menus")
 	}
 	var managerService = services.NewManagerService()
-	err = managerService.CreateUser(account, password, menuids)
-	return err == nil, err
+	u, err := managerService.CreateUser(account, password, menuids)
+	return u, err
 }
 
 // Delete delete user
