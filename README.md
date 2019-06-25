@@ -1,4 +1,5 @@
 # nirvana-cms
+[![Build Status](https://travis-ci.org/narrowizard/nirvana-cms.svg?branch=master)](https://travis-ci.org/narrowizard/nirvana-cms)  
 user and menu management api for nirvana-cms.
 
 ## usage
