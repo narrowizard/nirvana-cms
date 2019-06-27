@@ -32,6 +32,26 @@ var Role = definition.Descriptor{
 			},
 		},
 		{
+			Path:        "/info",
+			Description: "get role info",
+			Definitions: []definition.Definition{
+				{
+					Method:   definition.Get,
+					Function: roles.Info,
+					Consumes: []string{definition.MIMEAll},
+					Produces: []string{definition.MIMEJSON},
+					Parameters: []definition.Parameter{
+						{
+							Source:      definition.Query,
+							Name:        "roleid",
+							Description: "role id",
+						},
+					},
+					Results: definition.DataErrorResults("role info"),
+				},
+			},
+		},
+		{
 			Path:        "/new",
 			Description: "create role",
 			Definitions: []definition.Definition{
