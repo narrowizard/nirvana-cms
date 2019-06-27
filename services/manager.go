@@ -25,7 +25,7 @@ func (this *ManagerService) UserList(page int, pagesize int, search string) (*mo
 		return nil, meta.TableQueryError.Error("users")
 	}
 	var u = make([]models.UserInfo, 0)
-	err = this.DB.Table("users u").Joins("join roles r on u.role_id = r.id").Select("u.id,role_id,account,u.created_at,u.status,u.updated_at,r.name as role_name,r.status as role_status").Where("status < 100 and account like ?", "%"+search+"%").Offset(pagesize * (page - 1)).Limit(pagesize).Scan(&u).Error
+	err = this.DB.Table("users u").Joins("join roles r on u.role_id = r.id").Select("u.id,role_id,account,u.created_at,u.status,u.updated_at,r.name as role_name,r.status as role_status").Where("u.status < 100 and account like ?", "%"+search+"%").Offset(pagesize * (page - 1)).Limit(pagesize).Scan(&u).Error
 	if err != nil {
 		log.Error(err)
 		return nil, meta.TableQueryError.Error("users")
@@ -129,7 +129,7 @@ func (this *ManagerService) UpdateMenu(id, ismenu int, name, url, icon, remarks 
 
 func (this *ManagerService) UserInfo(id int) (*models.UserInfo, error) {
 	var m models.UserInfo
-	var err = this.DB.Table("users u").Joins("join roles r on u.role_id = r.id").Where("u.id=? and u.status<?", id, models.STATUSDELETED).Select("u.id,account,role_id,role_name,r.status as role_status,u.status").Scan(&m).Error
+	var err = this.DB.Table("users u").Joins("join roles r on u.role_id = r.id").Where("u.id=? and u.status<?", id, models.STATUSDELETED).Select("u.id,account,role_id,r.name as role_name,r.status as role_status,u.status").Scan(&m).Error
 	if err != nil {
 		log.Error(err)
 		return nil, meta.TableQueryError.Error("users")
