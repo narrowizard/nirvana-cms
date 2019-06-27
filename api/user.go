@@ -68,8 +68,8 @@ var User = definition.Descriptor{
 						},
 						{
 							Source:      definition.Form,
-							Name:        "menus",
-							Description: "user menu list",
+							Name:        "roleid",
+							Description: "user role id",
 						},
 					},
 					Results: definition.DataErrorResults("user info"),
@@ -124,8 +124,8 @@ var User = definition.Descriptor{
 						},
 						{
 							Source:      definition.Form,
-							Name:        "menus",
-							Description: "user menu list",
+							Name:        "roleid",
+							Description: "user role id",
 						},
 					},
 					Results: definition.DataErrorResults("whether updated"),

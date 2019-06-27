@@ -2,13 +2,10 @@ package users
 
 import (
 	"context"
-	"encoding/json"
 
 	"github.com/narrowizard/nirvana-cms/meta"
 	"github.com/narrowizard/nirvana-cms/models"
 	"github.com/narrowizard/nirvana-cms/services"
-
-	"github.com/caicloud/nirvana/log"
 )
 
 // Info get user info
@@ -26,39 +23,23 @@ func List(ctx context.Context, page int, pagesize int, search string) (*models.P
 }
 
 // New create user
-func New(ctx context.Context, account, password, menus string) (*models.User, error) {
-	var menuids = make([]int, 0)
-	var err = json.Unmarshal([]byte(menus), &menuids)
-	if err != nil {
-		log.Error(err)
-		return nil, meta.UnexpectedParamError.Error("menus")
-	}
+func New(ctx context.Context, account, password string, roleid int) (*models.User, error) {
 	var managerService = services.NewManagerService()
-	u, err := managerService.CreateUser(account, password, menuids)
+	u, err := managerService.CreateUser(account, password, roleid)
 	return u, err
 }
 
 // Delete delete user
 func Delete(ctx context.Context, userid int) error {
 	var managerService = services.NewManagerService()
-	var err = managerService.UpdateUser(userid, models.STATUSDELETED, nil)
+	var err = managerService.UpdateUser(userid, models.STATUSDELETED, 0)
 	return err
 }
 
 // Update update user info
-func Update(ctx context.Context, userid, status int, menus string) (bool, error) {
-	var menusData []int
-	var err error
-	if menus != "" {
-		menusData = make([]int, 0)
-		err = json.Unmarshal([]byte(menus), &menusData)
-		if err != nil {
-			log.Error(err)
-			return false, meta.UnexpectedParamError.Error("menus")
-		}
-	}
+func Update(ctx context.Context, userid, status, roleid int) (bool, error) {
 	var managerService = services.NewManagerService()
-	err = managerService.UpdateUser(userid, models.ENUMSTATUS(status), menusData)
+	var err = managerService.UpdateUser(userid, models.ENUMSTATUS(status), roleid)
 	return err == nil, err
 }
 
