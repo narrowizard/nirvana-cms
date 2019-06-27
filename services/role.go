@@ -43,38 +43,83 @@ func (r *RoleService) Info(id int) (*models.RoleInfo, error) {
 }
 
 func (r *RoleService) Update(id int, name string, menus []int, status int) error {
-	var err error
-	var tx = r.DB.Begin()
-	var fields = make(map[string]interface{}, 0)
-	var needUpdate = false
-	if name != "" {
-		needUpdate = true
-		fields["name"] = name
-	}
-	if status > 0 {
-		needUpdate = true
-		fields["status"] = status
-	}
-	if needUpdate {
-		err = tx.Model(&models.Role{}).Where("id=?", id).Update(fields).Error
-		if err != nil {
-			log.Error(err)
-			tx.Rollback()
-			return meta.TableUpdateError.Error("roles")
+	var role models.Role
+	var db = r.DB.Model(&models.Role{}).Where("name=? and id <> ?", name, id).Scan(&role)
+	var notFound = db.RecordNotFound()
+	var err = db.Error
+	if notFound {
+		var tx = r.DB.Begin()
+		var fields = make(map[string]interface{}, 0)
+		var needUpdate = false
+		if name != "" {
+			needUpdate = true
+			fields["name"] = name
 		}
+		if status > 0 {
+			needUpdate = true
+			fields["status"] = status
+		}
+		if needUpdate {
+			err = tx.Model(&models.Role{}).Where("id=?", id).Update(fields).Error
+			if err != nil {
+				log.Error(err)
+				tx.Rollback()
+				return meta.TableUpdateError.Error("roles")
+			}
+		}
+		if menus != nil {
+			err = tx.Model(&models.RoleMenu{}).Where("role_id=? and status=?", id, models.STATUSNORMAL).Update(map[string]interface{}{
+				"status": models.STATUSDELETED,
+			}).Error
+			if err != nil {
+				log.Error(err)
+				tx.Rollback()
+				return meta.TableUpdateError.Error("role_menus")
+			}
+			for _, v := range menus {
+				var temp = &models.RoleMenu{
+					RoleID: id,
+					MenuID: v,
+					Status: models.STATUSNORMAL,
+				}
+				err = tx.Model(&temp).Create(&temp).Error
+				if err != nil {
+					log.Error(err)
+					tx.Rollback()
+					return meta.TableInsertError.Error("role_menus")
+				}
+			}
+		}
+		tx.Commit()
+		return nil
 	}
-	if menus != nil {
-		err = tx.Model(&models.RoleMenu{}).Where("role_id=? and status=?", id, models.STATUSNORMAL).Update(map[string]interface{}{
-			"status": models.STATUSDELETED,
-		}).Error
+	if err != nil {
+		log.Error(err)
+		return meta.TableQueryError.Error("roles")
+	} else {
+		return meta.RoleExistedError.Error(name)
+	}
+}
+
+func (r *RoleService) New(name string, menus []int) (*models.Role, error) {
+	var role models.Role
+	var db = r.DB.Model(&models.Role{}).Where("name=?", name).Scan(&role)
+	var notFound = db.RecordNotFound()
+	var err = db.Error
+	if notFound {
+		var m models.Role
+		m.Name = name
+		m.Status = models.STATUSNORMAL
+		var tx = r.DB.Begin()
+		err = tx.Model(&m).Create(&m).Error
 		if err != nil {
 			log.Error(err)
 			tx.Rollback()
-			return meta.TableUpdateError.Error("role_menus")
+			return nil, meta.TableInsertError.Error("roles")
 		}
 		for _, v := range menus {
 			var temp = &models.RoleMenu{
-				RoleID: id,
+				RoleID: m.ID,
 				MenuID: v,
 				Status: models.STATUSNORMAL,
 			}
@@ -82,38 +127,16 @@ func (r *RoleService) Update(id int, name string, menus []int, status int) error
 			if err != nil {
 				log.Error(err)
 				tx.Rollback()
-				return meta.TableInsertError.Error("role_menus")
+				return nil, meta.TableInsertError.Error("role_menus")
 			}
 		}
+		tx.Commit()
+		return &m, nil
 	}
-	tx.Commit()
-	return nil
-}
-
-func (r *RoleService) New(name string, menus []int) (*models.Role, error) {
-	var m models.Role
-	m.Name = name
-	m.Status = models.STATUSNORMAL
-	var tx = r.DB.Begin()
-	var err = tx.Model(&m).Create(&m).Error
 	if err != nil {
 		log.Error(err)
-		tx.Rollback()
-		return nil, meta.TableInsertError.Error("roles")
+		return nil, meta.TableQueryError.Error("roles")
+	} else {
+		return nil, meta.RoleExistedError.Error(name)
 	}
-	for _, v := range menus {
-		var temp = &models.RoleMenu{
-			RoleID: m.ID,
-			MenuID: v,
-			Status: models.STATUSNORMAL,
-		}
-		err = tx.Model(&temp).Create(&temp).Error
-		if err != nil {
-			log.Error(err)
-			tx.Rollback()
-			return nil, meta.TableInsertError.Error("role_menus")
-		}
-	}
-	tx.Commit()
-	return &m, nil
 }
