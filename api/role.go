@@ -113,12 +113,6 @@ var Role = definition.Descriptor{
 					Parameters: []definition.Parameter{
 						{
 							Source:      definition.Form,
-							Name:        "roleid",
-							Description: "role id",
-							Operators:   []definition.Operator{validator.Int("min=1")},
-						},
-						{
-							Source:      definition.Form,
 							Name:        "name",
 							Description: "role name",
 						},
@@ -126,6 +120,12 @@ var Role = definition.Descriptor{
 							Source:      definition.Form,
 							Name:        "menus",
 							Description: "role menu list",
+						},
+						{
+							Source:      definition.Form,
+							Name:        "roleid",
+							Description: "role id",
+							Operators:   []definition.Operator{validator.Int("min=1")},
 						},
 					},
 					Results: definition.DataErrorResults("whether updated"),
