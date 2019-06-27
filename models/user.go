@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+// UserMenu [deprecated]
 type UserMenu struct {
 	Model
 	UserID int
@@ -15,12 +16,15 @@ type UserMenu struct {
 	Status ENUMSTATUS
 }
 
+// User 用户
 type User struct {
 	Model
-	Account  string
-	Password string
-	Salt     string
-	Status   ENUMSTATUS
+	Account    string
+	Password   string
+	Salt       string
+	RoleID     int
+	RoleExpire time.Time
+	Status     ENUMSTATUS
 }
 
 func (this *User) Encrypt() {
