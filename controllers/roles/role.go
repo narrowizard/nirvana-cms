@@ -42,11 +42,15 @@ func Delete(ctx context.Context, roleid int) error {
 
 // Update a role
 func Update(ctx context.Context, name, menus string, status, roleid int) (bool, error) {
-	var menuIDs = make([]int, 0)
-	var err = json.Unmarshal([]byte(menus), &menuIDs)
-	if err != nil {
-		log.Error(err)
-		return false, meta.UnexpectedParamError.Error("menus")
+	var err error
+	var menuIDs []int
+	if menus != "" {
+		menuIDs = make([]int, 0)
+		err = json.Unmarshal([]byte(menus), &menuIDs)
+		if err != nil {
+			log.Error(err)
+			return false, meta.UnexpectedParamError.Error("menus")
+		}
 	}
 	var roleService = services.NewRoleService()
 	err = roleService.Update(roleid, name, menuIDs, status)
