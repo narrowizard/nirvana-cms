@@ -123,6 +123,11 @@ var Role = definition.Descriptor{
 						},
 						{
 							Source:      definition.Form,
+							Name:        "status",
+							Description: "role status",
+						},
+						{
+							Source:      definition.Form,
 							Name:        "roleid",
 							Description: "role id",
 							Operators:   []definition.Operator{validator.Int("min=1")},

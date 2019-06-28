@@ -41,7 +41,7 @@ func Delete(ctx context.Context, roleid int) error {
 }
 
 // Update a role
-func Update(ctx context.Context, name, menus string, roleid int) (bool, error) {
+func Update(ctx context.Context, name, menus string, status, roleid int) (bool, error) {
 	var menuIDs = make([]int, 0)
 	var err = json.Unmarshal([]byte(menus), &menuIDs)
 	if err != nil {
@@ -49,6 +49,6 @@ func Update(ctx context.Context, name, menus string, roleid int) (bool, error) {
 		return false, meta.UnexpectedParamError.Error("menus")
 	}
 	var roleService = services.NewRoleService()
-	err = roleService.Update(roleid, name, menuIDs, 0)
+	err = roleService.Update(roleid, name, menuIDs, status)
 	return err == nil, err
 }
