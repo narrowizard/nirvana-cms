@@ -117,5 +117,23 @@ var Menu = definition.Descriptor{
 				},
 			},
 		},
+		{
+			Path:        "/delete",
+			Description: "delete a menu node",
+			Definitions: []definition.Definition{
+				{
+					Method:   definition.Delete,
+					Function: menus.DeleteMenu,
+					Consumes: []string{definition.MIMEAll},
+					Produces: []string{definition.MIMEJSON},
+					Parameters: []definition.Parameter{
+						definition.QueryParameterFor("id", "node id"),
+					},
+					Results: []definition.Result{
+						definition.ErrorResult(),
+					},
+				},
+			},
+		},
 	},
 }

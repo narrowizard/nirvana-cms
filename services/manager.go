@@ -127,6 +127,17 @@ func (this *ManagerService) UpdateMenu(id, ismenu int, name, url, icon, remarks 
 	return nil
 }
 
+func (this *ManagerService) DeleteMenu(id int) error {
+	var err = this.DB.Model(&models.Menu{}).Where("id=?", id).Update(map[string]interface{}{
+		"status": models.STATUSDELETED,
+	}).Error
+	if err != nil {
+		log.Error(err)
+		return meta.TableUpdateError.Error("menus")
+	}
+	return nil
+}
+
 func (this *ManagerService) UserInfo(id int) (*models.UserInfo, error) {
 	var m models.UserInfo
 	var err = this.DB.Table("users u").Joins("join roles r on u.role_id = r.id").Where("u.id=? and u.status<?", id, models.STATUSDELETED).Select("u.id,account,role_id,r.name as role_name,r.status as role_status,u.status").Scan(&m).Error
