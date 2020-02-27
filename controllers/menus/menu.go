@@ -27,3 +27,10 @@ func Update(ctx context.Context, name, icon, url, remarks string, id, ismenu int
 	var err = managerService.UpdateMenu(id, ismenu, name, url, icon, remarks)
 	return err == nil, err
 }
+
+// DeleteMenu  delete a menu node
+func DeleteMenu(ctx context.Context, id int) error {
+	var managerService = services.NewManagerService()
+	var err = managerService.DeleteMenu(id)
+	return err
+}
