@@ -32,7 +32,7 @@ func ConfigInfo() *models.ConfigInfo {
 func createDatabase() {
 	db.AutoMigrate(&models.User{})
 	db.AutoMigrate(&models.Menu{})
-	db.AutoMigrate(&models.UserMenu{})
+	// db.AutoMigrate(&models.UserMenu{})
 	db.AutoMigrate(&models.Role{})
 	db.AutoMigrate(&models.RoleMenu{})
 }
