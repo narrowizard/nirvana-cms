@@ -70,6 +70,7 @@ var User = definition.Descriptor{
 							Source:      definition.Form,
 							Name:        "roleid",
 							Description: "user role id",
+							Operators:   []definition.Operator{validator.Int("min=1")},
 						},
 					},
 					Results: definition.DataErrorResults("user info"),
